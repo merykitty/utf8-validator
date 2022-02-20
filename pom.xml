@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.github.merykitty</groupId>
+    <artifactId>utf8-validator</artifactId>
+    <version>0.0.1</version>
+
+    <packaging>jar</packaging>
+
+    <name>UTF-8 Validator</name>
+    <!-- FIXME change it to the project's website -->
+    <url>http://www.example.com</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <junit.version>5.8.0</junit.version>
+        <maven-surefile-plugin.version>3.0.0-M5</maven-surefile-plugin.version>
+	<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+	<exec-maven-plugin.version>3.0.0</exec-maven-plugin.version>
+        <jmh.version>1.34</jmh.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-core</artifactId>
+            <version>${jmh.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openjdk.jmh</groupId>
+            <artifactId>jmh-generator-annprocess</artifactId>
+            <version>${jmh.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <compilerArgs>
+                        <arg>--add-modules=jdk.incubator.vector</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefile-plugin.version}</version>
+                <configuration>
+                    <trimStackTrace>false</trimStackTrace>
+                    <argLine>-ea</argLine>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+		        <version>${exec-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>benchmark</id>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <executable>/home/merykitty/java/openjdk/jdk/build/linux-x86_64-server-fastdebug/images/jdk/bin/java</executable>
+                            <arguments>
+                                <argument>-cp</argument>
+                                <modulepath/>
+                                <argument>--add-modules=jdk.incubator.vector</argument>
+                                <argument>-XX:+UnlockDiagnosticVMOptions</argument>
+<!--                                <argument>-XX:+UseSerialGC</argument>-->
+                                <argument>-XX:-TieredCompilation</argument>
+<!--                                <argument>-XX:+PrintIntrinsics</argument>-->
+<!--                                <argument>-XX:LoopUnrollLimit=1</argument>-->
+                                <argument>-Djmh.blackhole.mode=COMPILER</argument>
+<!--                                <argument>-XX:CompileCommand=print,*Validator.validate</argument>-->
+                                <argument>-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0</argument>
+                                <argument>io.github.merykitty.inlinestring.benchmark.BenchmarkEntry</argument>
+                                <argument>ValidatorBenchmark</argument>
+                                <argument>-prof</argument>
+                                <argument>perfasm:tooBigThreshold=10000</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
