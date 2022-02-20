@@ -16,7 +16,7 @@ public class FilesTest {
         String[] resources = {"twitter.json", "utf8-demo.txt", "utf8-demo-invalid.txt", "20k.txt"};
         for (String resource : resources) {
             var buf = Files.readAllBytes(Path.of(this.getClass().getResource(resource).toURI()));
-            boolean valid = Utf8Validator.validate(buf);
+            boolean valid = Utf8Validator.validateUtf8(buf);
             assertNotEquals(resource.contains("invalid"), valid, "Incorrect result, file:" + resource);
         }
     }

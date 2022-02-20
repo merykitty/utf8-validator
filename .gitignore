@@ -1,4 +1,5 @@
 target/
+simdjson/
 .*
 !.gitignore
 *.iml

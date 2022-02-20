@@ -6,8 +6,13 @@ import jdk.incubator.vector.VectorOperators;
 import jdk.incubator.vector.VectorShuffle;
 
 public class Utf8Validator {
-    // May run with -Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK = 0 to eliminate range check
-    public static boolean validate(byte[] data) {
+    /**
+     * Validate a byte array that supposed to contain UTF-8 encoding data.
+     *
+     * @param data the array contains UTF-8 encoded data
+     * @return the validity of {@code data} to decode it using UTF-8 enccoding
+     */
+    public static boolean validateUtf8(byte[] data) {
         var species = ByteVector.SPECIES_PREFERRED;
 
         var error = ByteVector.zero(species);

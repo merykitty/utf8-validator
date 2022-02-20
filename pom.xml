@@ -16,8 +16,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>19</maven.compiler.source>
-        <maven.compiler.target>19</maven.compiler.target>
+        <maven.compiler.source>18</maven.compiler.source>
+        <maven.compiler.target>18</maven.compiler.target>
         <junit.version>5.8.0</junit.version>
         <maven-surefile-plugin.version>3.0.0-M5</maven-surefile-plugin.version>
 	<maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
@@ -101,12 +101,12 @@
 <!--                                <argument>-XX:+PrintIntrinsics</argument>-->
 <!--                                <argument>-XX:LoopUnrollLimit=1</argument>-->
                                 <argument>-Djmh.blackhole.mode=COMPILER</argument>
-<!--                                <argument>-XX:CompileCommand=print,*Validator.validate</argument>-->
-                                <argument>-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0</argument>
-                                <argument>io.github.merykitty.inlinestring.benchmark.BenchmarkEntry</argument>
-                                <argument>ValidatorBenchmark</argument>
-                                <argument>-prof</argument>
-                                <argument>perfasm:tooBigThreshold=10000</argument>
+<!--                                <argument>-XX:CompileCommand=print,*Utf8Validator.validateUtf8</argument>-->
+<!--                                <argument>-Djdk.incubator.vector.VECTOR_ACCESS_OOB_CHECK=0</argument>-->
+                                <argument>benchmark.BenchmarkEntry</argument>
+<!--                                <argument>ValidatorBenchmark</argument>-->
+<!--                                <argument>-prof</argument>-->
+<!--                                <argument>perfasm:tooBigThreshold=10000</argument>-->
                             </arguments>
                         </configuration>
                     </execution>
